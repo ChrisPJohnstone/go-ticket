@@ -1,12 +1,9 @@
-BINARY ?= bin
+BINARY ?= ticket
 
-.PHONY: build run clean
+.PHONY: clean
 
-build:
+$(BINARY): $(shell find . -type f -name '*.go')
 	go build -o $(BINARY) .
-
-run: build
-	./$(BINARY)
 
 clean:
 	rm -f $(BINARY)
