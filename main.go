@@ -14,7 +14,7 @@ const browserEnvar = "BROWSER"
 func browserCmd() ([]string, error) {
 	cmd := os.Getenv(browserEnvar)
 	if cmd == "" {
-		return nil, errors.New(browserEnvar + " environment variable empty or not set\n")
+		return nil, errors.New(browserEnvar + " environment variable empty or not set")
 	}
 	parts := strings.Fields(cmd)
 	return parts, nil
