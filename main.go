@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bufio"
 	"errors"
 	"os"
 	"os/exec"
@@ -33,7 +34,23 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	// TODO: Read from stdin (process both or exclusive?
+	fileInfo, _ := os.Stdin.Stat()
+	if (fileInfo.Mode() & os.ModeCharDevice) == 0 {
+		scanner := bufio.NewScanner(os.Stdin)
+		for scanner.Scan() {
+			ticket := strings.TrimSpace(scanner.Text())
+			if ticket != "" {
+				fullCmd := append(browserCmd, url(ticket))
+				err := exec.Command(fullCmd[0], fullCmd[1:]...).Run()
+				if err != nil {
+					panic(err)
+				}
+			}
+		}
+		if err := scanner.Err(); err != nil {
+			panic(err)
+		}
+	}
 	args := os.Args[1:]
 	for _, arg := range args {
 		fullCmd := append(browserCmd, url(arg))
