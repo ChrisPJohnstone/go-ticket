@@ -48,10 +48,7 @@ func main() {
 			panic(err)
 		}
 	}
-	args := os.Args[1:]
-	for _, arg := range args {
-		tickets = append(tickets, arg)
-	}
+	tickets = append(tickets, os.Args[1:]...)
 	for _, ticket := range tickets {
 		fullCmd := append(browserCmd, url(ticket))
 		err := exec.Command(fullCmd[0], fullCmd[1:]...).Run()
