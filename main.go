@@ -22,7 +22,7 @@ func browserCmd() ([]string, error) {
 }
 
 func url(id string) string {
-	prefix := jiraUrl + "/"
+	prefix := jiraUrl + "/browse/"
 	if id[0] >= '0' && id[0] <= '9' {
 		return prefix + defaultProject + "-" + id
 	}
