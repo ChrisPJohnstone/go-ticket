@@ -35,16 +35,13 @@ func main() {
 		panic(err)
 	}
 	fileInfo, _ := os.Stdin.Stat()
+	var tickets []string
 	if (fileInfo.Mode() & os.ModeCharDevice) == 0 {
 		scanner := bufio.NewScanner(os.Stdin)
 		for scanner.Scan() {
 			ticket := strings.TrimSpace(scanner.Text())
 			if ticket != "" {
-				fullCmd := append(browserCmd, url(ticket))
-				err := exec.Command(fullCmd[0], fullCmd[1:]...).Run()
-				if err != nil {
-					panic(err)
-				}
+				tickets = append(tickets, ticket)
 			}
 		}
 		if err := scanner.Err(); err != nil {
@@ -53,7 +50,10 @@ func main() {
 	}
 	args := os.Args[1:]
 	for _, arg := range args {
-		fullCmd := append(browserCmd, url(arg))
+		tickets = append(tickets, arg)
+	}
+	for _, ticket := range tickets {
+		fullCmd := append(browserCmd, url(ticket))
 		err := exec.Command(fullCmd[0], fullCmd[1:]...).Run()
 		if err != nil {
 			panic(err)
